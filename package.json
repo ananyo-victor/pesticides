@@ -1,0 +1,24 @@
+{
+  "name": "express-mongoose-app",
+  "version": "1.0.0",
+  "description": "A simple Express and Mongoose application for user and HR sign-up and sign-in functionality.",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "ejs": "^3.1.6",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "body-parser": "^1.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "author": "",
+  "license": "ISC"
+}
