@@ -7,6 +7,7 @@ const signUpUser = async (req, res) => {
     const { name, email, password, phoneNumber, skills, resumePath, experience, education } = req.body;
     try {
         // Check if user already exists
+        // console.log(req.body);
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
@@ -24,9 +25,10 @@ const signUpUser = async (req, res) => {
             skills,
             resumePath,
             experience,
-            education
+            education,
+            role: 'user'
         });
-
+        // console.log(newUser);
         // Save user to database
         await newUser.save();
 
@@ -41,7 +43,9 @@ const signUpUser = async (req, res) => {
 };
 
 const signUpHR = async (req, res) => {
-    const { name, email, password, phoneNumber } = req.body;
+    const { name, email, password, phoneNumber, companyName } = req.body;
+    console.log(req.body);
+
     try {
         // Check if HR already exists
         const existingHR = await HR.findOne({ email });
@@ -57,7 +61,9 @@ const signUpHR = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            phoneNumber
+            phoneNumber,
+            companyName,
+            role: 'hr'
         });
 
         // Save HR to database
@@ -75,6 +81,8 @@ const signUpHR = async (req, res) => {
 
 const signIn = async (req, res) => {
     const { email, password, role } = req.body;
+    console.log(req.body);
+    
     try {
         // Check if user exists
         const user = await (role === 'hr' ? HR : User).findOne({ email });

@@ -22,10 +22,14 @@ const hrSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    cinNumber: {
-        type: Number,
-        required: true,
+    role : {
+        type : String,
+        required: true
     },
+    // cinNumber: {
+    //     type: Number,
+    //     required: true,
+    // },
 }, { timestamps: true });
 
 const HR = mongoose.model('HR', hrSchema);

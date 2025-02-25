@@ -11,11 +11,11 @@ const userSchema = new mongoose.Schema({
         unique: true,
     },
     phoneNumber: {
-        type: Number,
+        type: String,
         required: true,
     },
     skills: {
-        type: [String],
+        type: String,
         required: true
     },
     resumePath: {
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     experience: {
-        type: Number,
+        type: String,
         required: true,
     },
     education: {
@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+    },
+    role : {
+        type: String,
+        require: true,
     },
 }, { timestamps: true });
 
