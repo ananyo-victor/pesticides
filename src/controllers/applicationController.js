@@ -1,5 +1,5 @@
 import Application from '../models/application.js';
-import {verifyTokens} from '../middlewares/verifyTokens.js'
+import { verifyTokens } from '../middlewares/verifyTokens.js'
 
 
 export const applyForJob = async (req, res) => {
