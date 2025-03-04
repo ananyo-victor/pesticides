@@ -1,8 +1,13 @@
 import Application from '../models/application.js';
+import {verifyTokens} from '../middlewares/verifyTokens.js'
+
 
 export const applyForJob = async (req, res) => {
   try {
-    const { userId, jobId, hrId, resume, coverLetter, skills, location, status } = req.body;
+    const {  resume, coverLetter, location } = req.body;
+    const userId = req.user.id;
+    const hrId = req.hr.id;
+    const jobId = req.job.id;
 
     const existingApplication = await Application.findOne({ userId, jobId });
 
@@ -20,7 +25,6 @@ export const applyForJob = async (req, res) => {
       hrId,
       resume,
       coverLetter,
-      skills,
       location,
       status : 'pending',
     });
