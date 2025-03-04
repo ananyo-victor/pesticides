@@ -1,16 +1,15 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-    name: {
+const postSchema = new mongoose.Schema({
+    title: {
         type: String,
         required: true,
     },
-    email: {
+    description: {
         type: String,
         required: true,
-        unique: true,
     },
-    phoneNumber: {
+    location: {
         type: String,
         required: true,
     },
@@ -18,8 +17,8 @@ const userSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    resumePath: {
-        type: String,
+    salary: {
+        type: Number,
         required: true,
     },
     experience: {
@@ -30,18 +29,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    password: {
+    hrId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'HR',
+        required: true,
+    },
+    applicantsID: {
+        type: [mongoose.Schema.Types.ObjectId],
+    },
+    status: {
         type: String,
         required: true,
     },
-    role : {
-        type: String,
-        require: true,
-    },
-    jobId: {
-        type: [mongoose.Schema.Types.ObjectId]
-    }
 }, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
-export default User;
+const Post = mongoose.model('Post', postSchema);
+
+export default Post;

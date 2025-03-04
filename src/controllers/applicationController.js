@@ -1,13 +1,14 @@
 import Application from '../models/application.js';
-import {verifyTokens} from '../middlewares/verifyTokens.js'
+import { verifyTokens } from '../middlewares/verifyTokens.js'
 
 
 export const applyForJob = async (req, res) => {
   try {
-    const {  resume, coverLetter, location } = req.body;
+    console.log(" Applicatoin page is  hereeeeeeee")
+    const {  resume, coverLetter, location , hrId } = req.body;
     const userId = req.user.id;
-    const hrId = req.hr.id;
-    const jobId = req.job.id;
+    // const hrId = req.hr.id;
+    const jobId = req.params.jobId;
 
     const existingApplication = await Application.findOne({ userId, jobId });
 
@@ -27,9 +28,14 @@ export const applyForJob = async (req, res) => {
       coverLetter,
       location,
       status : 'pending',
+      experience
     });
+    console.log(newApplication);
 
     await newApplication.save();
+       
+    console.log("Request body: ", req.body);
+    console.log("Headers: ", req.headers);
 
     res.status(201).json({
       message: 'Application submitted successfully!',

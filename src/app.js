@@ -5,6 +5,7 @@ dotenv.config();
 import connectDB from "./db.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import HR_Routes from "./routes/HR_Routes.js";
 
 const app = express();
 const corsOptions = {
@@ -25,6 +26,7 @@ connectDB();
 // Routes
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/hr', HR_Routes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

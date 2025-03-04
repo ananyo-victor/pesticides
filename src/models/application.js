@@ -3,22 +3,22 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     jobId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'job',
+        ref: 'JOB_POST',
         required: true,
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: true,
     },
     hrId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref: 'hr',
+        ref: 'HR',
         required:true,
     },
     resume: {
         type: String,
-        required: true,
+        required: false,
     },
     coverLetter: {
         type: String,
@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
       },
+      experience : {
+        type : Number,
+        required : true,
+      }
 }, { timestamps: true });
 
 const Application = mongoose.model('Application', userSchema);
