@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import JOB_POST from "../../models/job-post.js";
 
-
 export const createJobPost = async (req, res) => {
     try {
         const {
@@ -19,6 +18,7 @@ export const createJobPost = async (req, res) => {
 
         // Extract token from headers
         const token = req.headers.authorization?.split(" ")[1];
+        localStorage.setItem(token);
         console.log("auth " ,req.headers.authorization)
         console.log("token is " ,token);
         if (!token) {
