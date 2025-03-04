@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import JOB_POST from "../../models/job-post.js";
 
 export const createJobPost = async (req, res) => {
+    console.log("hehe");
+    
     try {
         const {
             CompanyName,
@@ -15,15 +17,15 @@ export const createJobPost = async (req, res) => {
             Vacancy,
             LastDate
         } = req.body;
-
+ 
         // Extract token from headers
-        const token = req.headers.authorization?.split(" ")[1];
+        // const token = req.headers.authorization?.split(" ")[1];
         // console.log("auth " ,req.headers.authorization)
         // console.log("token is " ,token);
-        if (!token) {
-            return res.status(403).json({ message: "Access denied. No token provided." });
+        // if (!token) {
+        //     return res.status(403).json({ message: "Access denied. No token provided." });
            
-        }
+        // }
 
         // Verify and decode token
         let HRId;
@@ -48,6 +50,7 @@ export const createJobPost = async (req, res) => {
             LastDate,
             HRId
         });
+
 
         await newJob.save();
 

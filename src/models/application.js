@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     resume: {
         type: String,
-        required: true,
+        required: false,
     },
     coverLetter: {
         type: String,
