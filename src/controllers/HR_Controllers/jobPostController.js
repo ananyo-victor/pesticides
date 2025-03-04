@@ -18,9 +18,8 @@ export const createJobPost = async (req, res) => {
 
         // Extract token from headers
         const token = req.headers.authorization?.split(" ")[1];
-        localStorage.setItem(token);
-        console.log("auth " ,req.headers.authorization)
-        console.log("token is " ,token);
+        // console.log("auth " ,req.headers.authorization)
+        // console.log("token is " ,token);
         if (!token) {
             return res.status(403).json({ message: "Access denied. No token provided." });
            
@@ -52,7 +51,14 @@ export const createJobPost = async (req, res) => {
 
         await newJob.save();
 
-        res.status(201).json({ message: "Job posted successfully", job: newJob });
+        const jobToken = jwt.sign(
+            { jobId: newJob._id, HRId}, // Payload
+            "your_jwt_secret", // Secret key (keep secure)
+            { expiresIn: "1h" } // Token valid for 30 days
+        );
+        console.log(jobToken);
+
+        res.status(201).json({ message: "Job posted successfully", job: newJob, jobToken });
     } catch (error) {
         res.status(500).json({ message: "Error creating job post", error: error.message });
     }
