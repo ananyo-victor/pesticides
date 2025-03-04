@@ -20,10 +20,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    skills: {
-        type: String,
-        required: true
-    },
     coverLetter: {
         type: String,
         required: false,
@@ -34,7 +30,7 @@ const userSchema = new mongoose.Schema({
         default: 'Pending',
     },
     location : {
-        type: String,
+        type: [String],
         require: true,
     },
     appliedAt: {
