@@ -1,13 +1,11 @@
 import Application from '../models/application.js';
-import { verifyTokens } from '../middlewares/verifyTokens.js'
-
+import { verifyTokens } from '../middlewares/verifyTokens.js';
 
 export const applyForJob = async (req, res) => {
   try {
-    console.log(" Applicatoin page is  hereeeeeeee")
-    const {  resume, coverLetter, location , hrId } = req.body;
+    console.log("Application page is here");
+    const { resume, coverLetter, location, hrId, experience } = req.body;
     const userId = req.user.id;
-    // const hrId = req.hr.id;
     const jobId = req.params.jobId;
 
     const existingApplication = await Application.findOne({ userId, jobId });
@@ -15,11 +13,10 @@ export const applyForJob = async (req, res) => {
     if (existingApplication) {
       return res.status(400).json({
         message: 'User has already applied for this job.',
-        application: existingApplication, 
+        application: existingApplication,
       });
     }
 
-    
     const newApplication = new Application({
       userId,
       jobId,
@@ -27,13 +24,13 @@ export const applyForJob = async (req, res) => {
       resume,
       coverLetter,
       location,
-      status : 'pending',
+      status: 'pending',
       experience
     });
     console.log(newApplication);
 
     await newApplication.save();
-       
+
     console.log("Request body: ", req.body);
     console.log("Headers: ", req.headers);
 

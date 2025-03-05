@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const applicationSchema = new mongoose.Schema({
     jobId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'JOB_POST',
@@ -11,10 +11,10 @@ const userSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    hrId:{
-        type:mongoose.Schema.Types.ObjectId,
+    hrId: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'HR',
-        required:true,
+        required: true,
     },
     resume: {
         type: String,
@@ -29,19 +29,19 @@ const userSchema = new mongoose.Schema({
         enum: ['Pending', 'In Review', 'Accepted', 'Rejected'],
         default: 'Pending',
     },
-    location : {
+    location: {
         type: [String],
-        require: true,
+        required: true,
     },
     appliedAt: {
         type: Date,
         default: Date.now,
-      },
-      experience : {
-        type : Number,
-        required : true,
-      }
+    },
+    experience: {
+        type: Number,
+        required: true,
+    }
 }, { timestamps: true });
 
-const Application = mongoose.model('Application', userSchema);
+const Application = mongoose.model('Application', applicationSchema);
 export default Application;
