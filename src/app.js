@@ -17,9 +17,9 @@ const corsOptions = {
 
 // Middleware
 app.use(cors(corsOptions)); // Add CORS middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+app.use(express.json()); // Add JSON body parsing middleware
+app.use(express.urlencoded({ extended: true })); // Add URL-encoded body parsing middleware
+  
 // Database connection
 connectDB();
 
