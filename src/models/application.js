@@ -18,11 +18,11 @@ const applicationSchema = new mongoose.Schema({
     },
     resume: {
         type: String,
-        required: false,
+        // required: false,
     },
     coverLetter: {
         type: String,
-        required: false,
+        // required: false,
     },
     status: {
         type: String,
@@ -31,7 +31,7 @@ const applicationSchema = new mongoose.Schema({
     },
     location: {
         type: [String],
-        required: true,
+        // required: true,
     },
     appliedAt: {
         type: Date,
@@ -39,7 +39,7 @@ const applicationSchema = new mongoose.Schema({
     },
     experience: {
         type: Number,
-        required: true,
+        // required: true,
     }
 }, { timestamps: true });
 
