@@ -7,6 +7,9 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import HR_Routes from "./routes/HR_Routes.js";
 
+import savedJobRoutes from "./routes/savedJobRoutes.js";
+
+
 const app = express();
 const corsOptions = {
     origin: '*',
@@ -27,6 +30,9 @@ connectDB();
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/hr', HR_Routes);
+
+
+app.use("/api", savedJobRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
