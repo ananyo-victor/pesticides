@@ -1,16 +1,16 @@
 import jwt from "jsonwebtoken";
 import JOB_POST from "../../models/job-post.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const createJobPost = async (req, res) => {
-    console.log("hehe");
-    
     try {
         const {
             CompanyName,
             Title,
             JobType,
             Location,
-            JobDescription,
+            JobDescription, 
             Salary,
             Experience,
             SkillsReq,
@@ -19,18 +19,17 @@ export const createJobPost = async (req, res) => {
         } = req.body;
  
         // Extract token from headers
-        // const token = req.headers.authorization?.split(" ")[1];
+        const token = req.headers.authorization?.split(" ")[1];
         // console.log("auth " ,req.headers.authorization)
         // console.log("token is " ,token);
-        // if (!token) {
-        //     return res.status(403).json({ message: "Access denied. No token provided." });
-           
-        // }
+        if (!token) {
+            return res.status(403).json({ message: "Access denied. No token provided." });
+        }
 
         // Verify and decode token
         let HRId;
         try {
-            const decoded = jwt.verify(token,  "your_jwt_secret"); // Use the same secret from signUpHR
+            const decoded = jwt.verify(token, 'process.env.JWT_KEY'); // Use the same secret from signUpHR
             HRId = decoded.userId;
         } catch (error) {
             return res.status(401).json({ message: "Invalid token" });
@@ -51,17 +50,9 @@ export const createJobPost = async (req, res) => {
             HRId
         });
 
-
         await newJob.save();
 
-        const jobToken = jwt.sign(
-            { jobId: newJob._id, HRId}, // Payload
-            "your_jwt_secret", // Secret key (keep secure)
-            { expiresIn: "1h" } // Token valid for 30 days
-        );
-        console.log(jobToken);
-
-        res.status(201).json({ message: "Job posted successfully", job: newJob, jobToken });
+        res.status(200).json({ message: "Job posted successfully", job: newJob,key:"success",jobToken });
     } catch (error) {
         res.status(500).json({ message: "Error creating job post", error: error.message });
     }
