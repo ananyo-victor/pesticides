@@ -52,7 +52,7 @@ export const createJobPost = async (req, res) => {
 
         await newJob.save();
 
-        res.status(200).json({ message: "Job posted successfully", job: newJob,key:"success",jobToken });
+        res.status(200).json({ message: "Job posted successfully", job: newJob,key:"success" });
     } catch (error) {
         res.status(500).json({ message: "Error creating job post", error: error.message });
     }
