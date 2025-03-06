@@ -1,6 +1,6 @@
 import express from "express";
-import { getUserProfile, updateUserProfile } from "../controllers/userController.js";
-import { applyForJob } from "../controllers/applicationController.js";
+import { getUserProfile, updateUserProfile } from "../controllers/User_Controller/userController.js";
+import { applyForJob } from "../controllers/User_Controller/applicationController.js";
 import { verifyTokens } from "../middlewares/verifyTokens.js";
 import multer from 'multer';
 import { AppliedJobs } from "../controllers/User_Controller/appliedjobsController.js";

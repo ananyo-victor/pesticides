@@ -1,5 +1,5 @@
 import express from "express";
-import { saveJob, getSavedJobs, removeSavedJob } from "../controllers/User_Controllers/savedJobController.js";
+import { saveJob, getSavedJobs, removeSavedJob } from "../controllers/User_Controller/savedJobController.js";
 import { verifyTokens } from "../middlewares/verifyTokens.js";
 
 const router = express.Router();
