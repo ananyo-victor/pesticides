@@ -30,8 +30,6 @@ connectDB();
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/hr', HR_Routes);
-
-
 app.use("/api", savedJobRoutes);
 
 // Start the server
