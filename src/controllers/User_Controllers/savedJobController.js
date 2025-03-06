@@ -5,7 +5,6 @@ export const saveJob = async (req, res) => {
     try {
         const { job_id } = req.body;
         const user_id = req.user.userId;
-        // Check if already saved
         const existingSavedJob = await SAVED_JOB.findOne({ user_id, job_id });
         if (existingSavedJob) {
             return res.status(400).json({ message: "Job already saved!" });
@@ -23,11 +22,10 @@ export const saveJob = async (req, res) => {
 // 2. Get all saved jobs for a user
 export const getSavedJobs = async (req, res) => {
     try {
-        // const { user_id } = req.params;  // User ID from request params
         const user_id = req.user.userId;
-
-        const savedJobs = await SAVED_JOB.find({ user_id }).populate("job_id"); // Populate job details
-        res.status(200).json(savedJobs);
+        const savedJobs = await SAVED_JOB.find({ user_id }).populate("job_id").lean();
+        const jobDetails = savedJobs.map(savedJob => savedJob.job_id);
+        res.status(200).json(jobDetails);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -36,12 +34,29 @@ export const getSavedJobs = async (req, res) => {
 // 3. Remove a saved job
 export const removeSavedJob = async (req, res) => {
     try {
-        const { job_id } = req.body;
+        const { job_id } = req.query;
         const user_id = req.user.userId;
         await SAVED_JOB.findOneAndDelete({ user_id, job_id });
-
         res.status(200).json({ message: "Saved job removed successfully!" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
+// 4. Check if a job is saved by a user
+export const isJobSaved = async (req, res) => {
+    try {
+        const { job_id } = req.query;
+        const user_id = req.user.userId;
+        const savedJob = await SAVED_JOB.findOne({ user_id, job_id });
+
+        if (savedJob) {
+            return res.status(200).json({ message: "Job is saved", saved: true });
+        } else {
+            return res.status(200).json({ message: "Job is not saved", saved: false });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+

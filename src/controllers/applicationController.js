@@ -1,5 +1,4 @@
 import Application from '../models/application.js';
-import { verifyTokens } from '../middlewares/verifyTokens.js';
 import multer from 'multer';
 import path from 'path';
 
@@ -55,26 +54,15 @@ export const applyForJob = async (req, res) => {
         });
       }
 
-      // Ensure location is parsed as an array
-      let parsedLocation;
-      try {
-        parsedLocation = JSON.parse(location);
-      } catch (error) {
-        return res.status(400).json({ message: 'Invalid location format' });
-      }
-
-      // Ensure experience is parsed as a number
-      const parsedExperience = Number(experience);
-
       const newApplication = new Application({
         userId,
         jobId,
         hrId,
         resume: req.file ? req.file.path : null, 
         coverLetter,
-        location: parsedLocation,
+        location: JSON.parse(location),
         status: 'Pending',
-        experience: parsedExperience
+        experience: Number(experience)
       });
 
       // console.log("new Application : ", newApplication);
