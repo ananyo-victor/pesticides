@@ -19,6 +19,6 @@ export const verifyTokens = (req, res, next) => {
         next();
     } catch (error) {
         console.error("Token verification failed", error);
-        return res.status(401).json({ message: 'Unauthorized: Token verification failed' });
+        return res.status(401).json({ message: 'Unauthorized: Token verification failed' }); 
     }
 };
