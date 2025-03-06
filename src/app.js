@@ -7,6 +7,9 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import HR_Routes from "./routes/HR_Routes.js";
 
+import savedJobRoutes from "./routes/savedJobRoutes.js";
+
+
 const app = express();
 const corsOptions = {
     origin: '*',
@@ -17,9 +20,9 @@ const corsOptions = {
 
 // Middleware
 app.use(cors(corsOptions)); // Add CORS middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+app.use(express.json()); // Add JSON body parsing middleware
+app.use(express.urlencoded({ extended: true })); // Add URL-encoded body parsing middleware
+  
 // Database connection
 connectDB();
 
@@ -27,6 +30,9 @@ connectDB();
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/hr', HR_Routes);
+
+
+app.use("/api", savedJobRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
