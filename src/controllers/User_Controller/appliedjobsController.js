@@ -4,9 +4,9 @@ import Application  from "../../models/application.js";
 
 export const AppliedJobs = async(req , res ) => {
     try {
-        console.log("Hello!! ");
+        // console.log("Hello!! ");
         const userId = req.user.userId;
-        console.log("User ID:", userId);
+        // console.log("User ID:", usrId);
 
         if (!Types.ObjectId.isValid(userId)) {
             return res.status(400).json({ message: 'Invalid user ID' });

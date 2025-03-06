@@ -1,6 +1,6 @@
 // import multer from "multer";
 import bcrypt from "bcryptjs";
-import User from "../models/user.js";
+import User from "../../models/user.js";
 
 const getUserProfile = async (req, res) => {
   try {

@@ -2,16 +2,16 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-import User from "../models/user.js";
-import HR from "../models/hr.js";
-
+import User from "../../models/user.js";
+import HR from "../../models/hr.js";
+ 
 const signUpUser = async (req, res) => {
   const {
     name,
     email,
     password,
     phoneNumber,
-    skills,
+    skills, 
     resumePath,
     experience,
     education,
