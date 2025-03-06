@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const verifyTokens = (req, res, next) => {
-    console.log("Verifying tokens");
+    console.log("Verifying tokens",req);
     
     try {
         const userToken = req.headers['authorization-user']?.split(' ')[1];
-        console.log(userToken);
+        console.log("token is ",userToken);
 
         if (!userToken) {
             return res.status(401).json({ message: 'Unauthorized: Required tokens missing!' });
@@ -19,6 +19,6 @@ export const verifyTokens = (req, res, next) => {
         next();
     } catch (error) {
         console.error("Token verification failed", error);
-        return res.status(401).json({ message: 'Unauthorized: Token verification failed' });
+        return res.status(401).json({ message: 'Unauthorized: Token verification failed' }); 
     }
 };

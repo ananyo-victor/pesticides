@@ -35,16 +35,16 @@ export const applyForJob = async (req, res) => {
     }
 
     try {
-      // console.log("Application page is here");
-      // console.log("Request body: ", req.body);
+      console.log("Application page is here");
+       console.log("Request body: ", req.body);
 
       const { coverLetter, location, hrId, experience } = req.body;
       const userId = req.user.userId;
       const jobId = req.params.jobId; 
 
-      // console.log("User ID: ", userId);
-      // console.log("Job ID: ", jobId);
-      // console.log("resume", req.file.path);
+      console.log("User ID: ", userId);
+      console.log("Job ID: ", jobId);
+      console.log("resume", req.file.path);
 
       const existingApplication = await Application.findOne({ userId, jobId });
 
@@ -70,7 +70,7 @@ export const applyForJob = async (req, res) => {
         userId,
         jobId,
         hrId,
-        resume: req.file ? req.file.path : null, // Save the file path if file is uploaded
+        resume: req.file ? req.file.path : null, 
         coverLetter,
         location: parsedLocation,
         status: 'Pending',
