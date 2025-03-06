@@ -17,24 +17,23 @@ export const createJobPost = async (req, res) => {
             Vacancy,
             LastDate
         } = req.body;
- 
-        // Extract token from headers
-        const token = req.headers.authorization?.split(" ")[1];
-        // console.log("auth " ,req.headers.authorization)
-        // console.log("token is " ,token);
-        if (!token) {
-            return res.status(403).json({ message: "Access denied. No token provided." });
+        
+        if (!CompanyName || !Title || !JobType || !Location || !JobDescription || !Salary || !Experience || !SkillsReq || !Vacancy || !LastDate) {
+            console.log("Missing fields:", {
+                CompanyName: CompanyName || "Missing",
+                Title: Title || "Missing",
+                JobType: JobType || "Missing",
+                Location: Location || "Missing",
+                JobDescription: JobDescription || "Missing",
+                Salary: Salary || "Missing",
+                Experience: Experience || "Missing",
+                SkillsReq: SkillsReq || "Missing",
+                Vacancy: Vacancy || "Missing",
+                LastDate: LastDate || "Missing"
+            });
+            return res.status(400).json({ message: "All fields are required", key: "error" });
         }
-
-        // Verify and decode token
-        let HRId;
-        try {
-            const decoded = jwt.verify(token, 'process.env.JWT_KEY'); // Use the same secret from signUpHR
-            HRId = decoded.userId;
-        } catch (error) {
-            return res.status(401).json({ message: "Invalid token" });
-        }
-
+        
         // Creating a new job post
         const newJob = new JOB_POST({
             CompanyName,
@@ -47,7 +46,7 @@ export const createJobPost = async (req, res) => {
             SkillsReq,
             Vacancy,
             LastDate,
-            HRId
+            HRId : req.user.userId
         });
 
         await newJob.save();
