@@ -1,4 +1,4 @@
-import Application from '../models/application.js';
+import Application from '../../models/application.js';
 import multer from 'multer';
 import path from 'path';
 
@@ -41,9 +41,9 @@ export const applyForJob = async (req, res) => {
       const userId = req.user.userId;
       const jobId = req.params.jobId; 
 
-      console.log("User ID: ", userId);
-      console.log("Job ID: ", jobId);
-      console.log("resume", req.file.path);
+      // console.log("User ID: ", userId);
+      // console.log("Job ID: ", jobId);
+      // console.log("resume", req.file.path);
 
       const existingApplication = await Application.findOne({ userId, jobId });
 
