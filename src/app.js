@@ -8,8 +8,6 @@ import userRoutes from "./routes/userRoutes.js";
 import HR_Routes from "./routes/HR_Routes.js";
 
 import savedJobRoutes from "./routes/savedJobRoutes.js";
-
-
 const app = express();
 const corsOptions = {
     origin: '*',
