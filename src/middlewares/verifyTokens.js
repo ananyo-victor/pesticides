@@ -12,8 +12,8 @@ export const verifyTokens = (req, res, next) => {
         if (!userToken) {
             return res.status(401).json({ message: 'Unauthorized: Required tokens missing!' });
         }
-
-        const decodedUser = jwt.verify(userToken, 'process.env.JWT_KEY');
+        
+        const decodedUser = jwt.verify(userToken, process.env.JWT_KEY);
         req.user = decodedUser;
         console.log(decodedUser);
         next();
