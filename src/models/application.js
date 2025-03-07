@@ -18,11 +18,11 @@ const applicationSchema = new mongoose.Schema({
     },
     resume: {
         type: String,
-        // required: false,
+        required: true,
     },
     coverLetter: {
         type: String,
-        // required: false,
+        //  required: false,
     },
     status: {
         type: String,
@@ -31,15 +31,23 @@ const applicationSchema = new mongoose.Schema({
     },
     location: {
         type: [String],
-        // required: true,
+        required: true,
     },
     appliedAt: {
         type: Date,
         default: Date.now,
     },
+    updatedAt: {
+        type: Date,
+        // default: Date.now,
+    },
+    hiredAt: {
+        type: Date,
+        // default: Date.now,
+    },
     experience: {
         type: Number,
-        // required: true,
+        required: true,
     }
 }, { timestamps: true });
 

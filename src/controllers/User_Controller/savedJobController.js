@@ -48,8 +48,10 @@ export const isJobSaved = async (req, res) => {
     try {
         const { job_id } = req.query;
         const user_id = req.user.userId;
+        // console.log("User ID: ", user_id);
+        // console.log("Job ID: ", job_id);
         const savedJob = await SAVED_JOB.findOne({ user_id, job_id });
-
+// console.log(savedJob);
         if (savedJob) {
             return res.status(200).json({ message: "Job is saved", saved: true });
         } else {
