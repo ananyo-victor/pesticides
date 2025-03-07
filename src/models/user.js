@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    profilePic: {
+        type: String,
+        required: true,
+    },
     experience: {
         type: String,
         required: true,
