@@ -5,7 +5,7 @@ import {
   getJobsById 
 } from "../controllers/HR_Controllers/getJobsController.js";
 import { verifyTokens } from "../middlewares/verifyTokens.js";
-import { getApp } from "../controllers/applicationController.js";
+import { getApp } from "../controllers/User_Controller/applicationController.js";
 
 const router = express.Router();
 
