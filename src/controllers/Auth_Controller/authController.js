@@ -58,7 +58,7 @@ const signUpUser = async (req, res) => {
 };
 
 const signUpHR = async (req, res) => {
-  const { name, email, password, phoneNumber, companyName } = req.body;
+  const { hrName, email, password, phone, companyName, role } = req.body;
   console.log(req.body);
 
   try {
@@ -73,12 +73,12 @@ const signUpHR = async (req, res) => {
 
     // Create new HR
     const newHR = new HR({
-      name,
+      name: hrName, // Map hrName to name
       email,
       password: hashedPassword,
-      phoneNumber,
+      phoneNumber: phone,
       companyName,
-      role: "hr",
+      role,
     });
     console.log(newHR);
 
@@ -87,7 +87,7 @@ const signUpHR = async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { userId: newHR._id, role: "hr" },
+      { userId: newHR._id, role },
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
@@ -95,6 +95,7 @@ const signUpHR = async (req, res) => {
     // Respond with success message and token
     res.status(201).json({ message: "HR created successfully", token });
   } catch (error) {
+    console.error("Error signing up HR:", error); // Log the error
     res.status(500).json({ message: "Error signing up HR", error });
   }
 };
@@ -117,7 +118,7 @@ const signIn = async (req, res) => {
     }
 
     // Generate token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_KEY, {
       expiresIn: "1h",
     });
 
