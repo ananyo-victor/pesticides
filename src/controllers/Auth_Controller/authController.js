@@ -7,25 +7,28 @@ import HR from "../../models/hr.js";
 
 const signUpUser = async (req, res) => {
   const {
-    name,
+    SeekerName: name, // Map SeekerName to name
     email,
     password,
-    phoneNumber,
+    phone: phoneNumber, // Map phone to phoneNumber
     skills,
-    resumePath,
+    resumePath = "", // Set default value to empty string
     experience,
-    education,
+    education = "", // Set default value to empty string
+    profilePic = "" // Set default value to empty string
   } = req.body;
   try {
     // Check if user already exists
-    console.log(req.body);
+    console.log("Request body:", req.body);
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.log("User already exists");
       return res.status(400).json({ message: "User already exists" });
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Password hashed");
 
     // Create new user
     const newUser = new User({
@@ -37,11 +40,14 @@ const signUpUser = async (req, res) => {
       resumePath,
       experience,
       education,
+      profilePic,
       role: "user",
     });
-    console.log(newUser);
+    console.log("New user created:", newUser);
+
     // Save user to database
     await newUser.save();
+    console.log("User saved to database");
 
     // Generate token
     const token = jwt.sign(
@@ -49,10 +55,12 @@ const signUpUser = async (req, res) => {
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
+    console.log("Token generated");
 
     // Respond with success message and token
     return res.status(201).json({ message: "User created successfully", token });
   } catch (error) {
+    console.error("Error signing up user:", error);
     return res.status(500).json({ message: "Error signing up user", error });
   }
 };
