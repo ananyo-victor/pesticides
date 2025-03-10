@@ -131,7 +131,7 @@ const signIn = async (req, res) => {
     });
 
     // Respond with success message and token
-    res.status(200).json({ message: "Sign in successful", token });
+    res.status(200).json({ message: "Sign in successful", token, role });
   } catch (error) {
     res.status(500).json({ message: "Error signing in user", error });
   }
