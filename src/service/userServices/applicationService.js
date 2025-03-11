@@ -2,8 +2,6 @@ import mongoose from 'mongoose';
 import Application from '../../models/application.js';
 import JOB_POST from '../../models/job-post.js';
 import path from 'path';
-import mongoose from "mongoose";
-import { Types } from "mongoose";
 
 export const applyForJobService = async (req) => {
   try {
