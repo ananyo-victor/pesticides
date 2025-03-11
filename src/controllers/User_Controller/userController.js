@@ -4,8 +4,8 @@ import User from "../../models/user.js";
 
 const getUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id;
-    const user = await User.findById(userId);
+    const uId = req.user.userId;
+    const user = await User.findById(uId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -17,7 +17,7 @@ const getUserProfile = async (req, res) => {
 
 const updateUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user.userId;
     let updatedData = req.body;
 
     // If password is being updated, hash it

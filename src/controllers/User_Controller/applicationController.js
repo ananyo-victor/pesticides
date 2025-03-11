@@ -1,36 +1,37 @@
-import { applyForJobService } from '../../service/userServices/applicationService.js';
-import Application from '../../models/application.js';
+import mongoose from "mongoose";
+import { applyForJobService, isJobAppliedService, getAppService } from '../../service/userServices/applicationService.js';
 
 export const applyForJob = async (req, res) => {
-  try {
-    const response = await applyForJobService(req, res);
-    if (response) {
-      res.status(201).json({ message: 'Application submitted successfully!' });
-    } else {
-      res.status(400).json({ message: 'Failed to submit application.' });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: 'Internal server error.' });
+  const response = await applyForJobService(req);
+  if (response.success) {
+    return res.status(200).json(response);
+  } else if (response.message === 'User has already applied for this job.') {
+    return res.status(400).json(response);
+  } else {
+    return res.status(500).json(response);
   }
 };
 
 export const isJobApplied = async (req, res) => {
-  try {
-    const { jobId } = req.query;
-    const userId = req.user.userId;
-    // console.log("APPLICATION User ID: ", userId);
-    // console.log("Job ID: ", jobId);
+  const response = await isJobAppliedService(req);
+  if (response.applied) {
+    return res.status(200).json(response);
+  } else if (response.message === 'Internal server error') {
+    return res.status(500).json(response);
+  } else {
+    return res.status(200).json(response);
+  }
+};
 
-    const appliedJob = await Application.findOne({ userId, jobId});
-   // console.log(appliedJob);
-
-    if (appliedJob) {
-      res.status(200).json({ message: "Job is applied", applied: true });
-    } else {
-      res.status(200).json({ message: "Job is not applied", applied: false });
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+export const getApp = async (req, res) => {
+  const response = await getAppService(req);
+  if (response.success) {
+    return res.status(200).json(response);
+  } else if (response.message === 'Invalid Job ID') {
+    return res.status(400).json(response);
+  } else if (response.message === 'No applications found for this job') {
+    return res.status(404).json(response);
+  } else {
+    return res.status(500).json(response);
   }
 };

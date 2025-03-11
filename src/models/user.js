@@ -20,11 +20,11 @@ const userSchema = new mongoose.Schema({
     },
     resumePath: {
         type: String,
-        required: true,
+        required: false,
     },
     profilePic: {
         type: String,
-        required: true,
+        required: false,
     },
     experience: {
         type: String,
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
     education: {
         type: String,
-        required: true,
+        required: false,
     },
     password: {
         type: String,
