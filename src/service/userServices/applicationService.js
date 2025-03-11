@@ -1,5 +1,7 @@
 import Application from '../../models/application.js';
 import path from 'path';
+import mongoose from "mongoose";
+import { Types } from "mongoose";
 
 export const applyForJobService = async (req, res) => {
   try {
@@ -10,8 +12,8 @@ export const applyForJobService = async (req, res) => {
     const userId = req.user.userId;
     const jobId = req.params.jobId;
 
-    console.log("User ID: ", userId);
-    console.log("Job ID: ", jobId);
+    // console.log("User ID: ", userId);
+    // console.log("Job ID: ", jobId);
     console.log("resume", req.files.resume ? req.files.resume[0].path : null);
 
     const existingApplication = await Application.findOne({ userId, jobId });

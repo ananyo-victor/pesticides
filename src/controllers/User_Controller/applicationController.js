@@ -19,11 +19,11 @@ export const isJobApplied = async (req, res) => {
   try {
     const { jobId } = req.query;
     const userId = req.user.userId;
-    console.log("APPLICATION User ID: ", userId);
-    console.log("Job ID: ", jobId);
+    // console.log("APPLICATION User ID: ", userId);
+    // console.log("Job ID: ", jobId);
 
     const appliedJob = await Application.findOne({ userId, jobId});
-    console.log(appliedJob);
+   // console.log(appliedJob);
 
     if (appliedJob) {
       res.status(200).json({ message: "Job is applied", applied: true });
