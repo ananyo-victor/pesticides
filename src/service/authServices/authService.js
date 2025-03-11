@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 import User from "../../models/user.js";
@@ -17,12 +18,13 @@ export const signUpUserService = async (req) => {
         education = "", // Set default value to empty string
         profilePic = "" // Set default value to empty string
     } = req.body;
+    console.log(req.body);
     try {
         // Check if user already exists
         // console.log("Request body:", req.body);
         // const existingUser = await User.findOne({ email });
         const existingUser = await User.aggregate([
-            { $match: { _id: new mongoose.Types.ObjectId(email) } },
+            { $match: {email : email} },
             { $limit: 1 },
             { $project: { _id: 1 } }
         ]).then(data => data[0]);
@@ -95,7 +97,7 @@ export const signUpHRService = async (req) => {
         // const existingHR = await HR.findOne({ email });
 
         const existingHR = await HR.aggregate([
-            { $match: { _id: new mongoose.Types.ObjectId(email) } },
+            { $match: {email : email} },
             { $limit: 1 },
             { $project: { _id: 1 } }
         ]).then(data => data[0]);
@@ -152,11 +154,16 @@ export const signUpHRService = async (req) => {
 
 export const signInService = async (req) => {
     const { email, password, role } = req.body;
-    // console.log(req.body);
+    console.log(req.body);
 
     try {
         // Check if user exists
-        const user = await (role === "hr" ? HR : User).findOne({ email });
+        const user = await (role === "hr" ? HR : User).aggregate([
+            { $match: {email : email} },
+            { $limit: 1 },
+            { $project: { password: 1 } }
+        ]).then(data => data[0]);
+        console.log(user);
         if (!user) {
             // return res.status(400).json({ message: "User not found" });
             return {
@@ -164,7 +171,7 @@ export const signInService = async (req) => {
                 message: "User not found",
             };
         }
-
+// console.log(user);
         // Validate password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
@@ -174,7 +181,6 @@ export const signInService = async (req) => {
                 message: "Invalid password",
             };
         }
-
         // Generate token
         const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_KEY, {
             expiresIn: "1h",
