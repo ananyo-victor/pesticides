@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import Application from '../../models/application.js';
 import JOB_POST from '../../models/job-post.js';
 import path from 'path';
+import mongoose from "mongoose";
+import { Types } from "mongoose";
 
 export const applyForJobService = async (req) => {
   try {
@@ -16,6 +18,7 @@ export const applyForJobService = async (req) => {
       { $project: { _id: 1 } }
     ]).then(data => data[0]);
     
+
 
     if (existingApplication) {
       return {
