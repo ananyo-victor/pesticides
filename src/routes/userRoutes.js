@@ -8,8 +8,8 @@ import { AppliedJobs } from "../controllers/User_Controller/appliedjobsControlle
 const router = express.Router();
 
 // User profile routes
-router.get('/profile/:id', getUserProfile);
-router.put('/upProfile/:id', upload, updateUserProfile);
+router.get('/profile/', verifyTokens, getUserProfile);
+router.put('/upProfile/',verifyTokens, upload, updateUserProfile);
 router.post('/profile/application/:jobId', verifyTokens, upload, applyForJob);
 router.get('/profile/appliedjobs/myjob', verifyTokens, AppliedJobs);
 router.get('/profile/appliedjobs/check', verifyTokens, isJobApplied);
