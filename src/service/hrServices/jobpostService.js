@@ -31,16 +31,16 @@ export const getJobsService = async () => {
 export const getJobByIdService = async (id) => {
     try {
         const job = await JOB_POST.aggregate([
-            { $match: { _id:new mongoose.Types.ObjectId(id)} },
+            { $match: { _id: new mongoose.Types.ObjectId(id)} },
             {
                 $lookup: {
-                    from: "hr",
+                    from: "hrs",
                     localField: "HRId",
                     foreignField: "_id",
                     as: "hrDetails",
                 },
             },
-            // { $unwind: "$hrDetails" },
+            { $unwind: "$hrDetails" },
             {
                 $project: {
                     _id: 1,
