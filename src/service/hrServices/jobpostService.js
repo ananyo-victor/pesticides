@@ -53,6 +53,7 @@ export const getJobByIdService = async (id) => {
                     LastDate: 1,
                     createdAt:1,
                     Vacancy: 1,
+                    HRId: 1,
                     "hrDetails.name": 1,
                     "hrDetails.companyName": 1,
                     "hrDetails.email": 1,

@@ -33,6 +33,10 @@ const applicationSchema = new mongoose.Schema({
         type: [String],
         required: true,
     },
+    skills :{
+        type : [String],
+        required: true
+    },
     appliedAt: {
         type: Date,
         default: Date.now,
