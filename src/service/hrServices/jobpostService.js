@@ -15,11 +15,13 @@ export const createJobPostService = async (jobData, hrId) => {
 };
 
 /**
- * Get all job posts
+ * Get all job posts with pagination
  */
-export const getJobsService = async () => {
+export const getJobsService = async (page, limit) => {
     try {
-        return await JOB_POST.find();
+        const skip = (page - 1) * limit;
+        const jobs = await JOB_POST.find().skip(skip).limit(limit);
+        return jobs;
     } catch (error) {
         throw new Error(error.message);
     }
