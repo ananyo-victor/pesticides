@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import JOB_POST from "../../models/job-post.js";
 
 /**
@@ -30,7 +31,7 @@ export const getJobsService = async () => {
 export const getJobByIdService = async (id) => {
     try {
         const job = await JOB_POST.aggregate([
-            { $match: { _id: id } },
+            { $match: { _id:new mongoose.Types.ObjectId(id)} },
             {
                 $lookup: {
                     from: "hr",
@@ -39,7 +40,7 @@ export const getJobByIdService = async (id) => {
                     as: "hrDetails",
                 },
             },
-            { $unwind: "$hrDetails" },
+            // { $unwind: "$hrDetails" },
             {
                 $project: {
                     _id: 1,
