@@ -90,7 +90,7 @@ export const signUpUserService = async (req) => {
 
 export const signUpHRService = async (req) => {
     const { hrName, email, password, phone, companyName, role } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
         // Check if HR already exists
@@ -154,7 +154,6 @@ export const signUpHRService = async (req) => {
 
 export const signInService = async (req) => {
     const { email, password, role } = req.body;
-    console.log("SignIn request body:", req.body);
 
     try {
         // Check if user exists
