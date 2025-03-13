@@ -15,7 +15,7 @@ router.post("/postjob",verifyTokens, createJobPost);
 router.get("/getjobs", getJobs);
 router.get("/getjobsById/:Id", getJobById);
 router.get("/applications/:jobId", getApp); // Fetch applications for a specific job
-router.get('/hr-dashboard', hrDashboard );
+router.get('/hr-dashboard',verifyTokens, hrDashboard );
 router.put('/deleteJobPost/:Id',verifyTokens,DeleteJobPost)
 
 export default router;

@@ -90,7 +90,7 @@ export const signUpUserService = async (req) => {
 
 export const signUpHRService = async (req) => {
     const { hrName, email, password, phone, companyName, role } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
         // Check if HR already exists
@@ -154,7 +154,7 @@ export const signUpHRService = async (req) => {
 
 export const signInService = async (req) => {
     const { email, password, role } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
         // Check if user exists
@@ -163,7 +163,7 @@ export const signInService = async (req) => {
             { $limit: 1 },
             { $project: { password: 1 } }
         ]).then(data => data[0]);
-        console.log(user);
+        // console.log(user);
         if (!user) {
             // return res.status(400).json({ message: "User not found" });
             return {

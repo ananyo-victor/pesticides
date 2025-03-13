@@ -1,7 +1,9 @@
+import mongoose from "mongoose";
 import Application from "../../models/application.js";  // Assuming this is the Application model
+import HR from "../../models/hr.js";  // Assuming this is the HR model
 
 // Aggregation pipeline to get HR dashboard data
-const hrDash = async () => {
+const hrDash = async (hr) => {
   try {
     // MongoDB aggregation pipeline
     const result = await Application.aggregate([
@@ -40,24 +42,28 @@ const hrDash = async () => {
           "_id.month": 1,   // Then sort by month in ascending order
         },
       },
+ 
     ]);
-
-    // console.log("Aggregation result:", result); // Log the aggregation result
+    const hrData = await HR.find({ _id: new mongoose.Types.ObjectId(hr) }, { name: 1 });
 
     // Transform the aggregated data to return it in a usable format for the frontend
     const monthsApplications = Array(12).fill(0); // Initialize array with 12 zeros
-    const monthsHireStatus = Array(12).fill(0); // Initialize array with 12 zeros
+    const monthsHireStatus = Array(12).fill(0);
 
     result.forEach(item => {
       const month = item._id.month - 1; // Mongo months are 1-indexed (1 = January), JS array is 0-indexed
       monthsApplications[month] = item.totalApplications;
-      monthsHireStatus[month] = item.hiredApplications;
+
     });
 
     // console.log("Months Applications:", monthsApplications); // Log the transformed data
     // console.log("Months Hire Status:", monthsHireStatus); // Log the transformed data
 
-    return { monthsApplications, monthsHireStatus }; // Return the formatted data
+    return {
+      monthsApplications, monthsHireStatus,
+      // hrNames: result.map(item => item.hrName),
+      hrNames: hrData[0].name
+    }; // Return the formatted data
   } catch (error) {
     console.error("Error aggregating applications:", error);
     throw new Error("Error aggregating applications");
@@ -67,8 +73,12 @@ const hrDash = async () => {
 // Route handler for HR dashboard data
 const hrDashboard = async (req, res) => {
   try {
+    const hr = req.user.userId;
+    // console.log("Fetching HR dashboard data..."); // Log the start of the request
     // Call the hrDash function to get aggregated data
-    const data = await hrDash();
+
+    const data = await hrDash(hr);
+
     res.status(200).json(data); // Send the aggregated data as a JSON response
   } catch (error) {
     console.error("Error fetching HR dashboard data:", error);
