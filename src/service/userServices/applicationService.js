@@ -19,7 +19,6 @@ export const applyForJobService = async (req) => {
     ]).then(data => data[0]);
     
 
-
     if (existingApplication) {
       return {
         success: false,

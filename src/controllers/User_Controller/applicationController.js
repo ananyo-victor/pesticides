@@ -23,7 +23,6 @@ export const isJobApplied = async (req, res) => {
   }
 };
 
-
 export const getApp = async (req, res) => {
   const response = await getAppService(req);
   if (response.success) {
