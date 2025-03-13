@@ -42,6 +42,7 @@ const job_postSchema = new mongoose.Schema({
         type : Date,
         required: true
     },
+    isActive: { type: Boolean, default: true },
     HRId: { type: mongoose.Schema.Types.ObjectId, ref: "HR", required: true } 
     
 }, { timestamps: true });

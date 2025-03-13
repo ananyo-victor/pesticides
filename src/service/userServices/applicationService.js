@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
 import Application from '../../models/application.js';
 import JOB_POST from '../../models/job-post.js';
-import path from 'path';
+// import path from 'path';
+
 
 export const applyForJobService = async (req) => {
   try {
-    const { coverLetter, location, hrId, experience } = req.body;
+    // console.log(req.body);
+    const { coverLetter, location, hrId, experience,skills } = req.body;
     const userId = req.user.userId;
     const jobId = req.params.jobId;
 
@@ -32,6 +34,7 @@ export const applyForJobService = async (req) => {
       resume: req.files.resume ? req.files.resume[0].path : null,
       coverLetter,
       location: JSON.parse(location),
+      skills: JSON.parse(skills),
       status: 'Pending',
       experience: Number(experience)
     });
@@ -106,16 +109,19 @@ export const getAppService = async (req) => {
           location: 1,
           appliedAt: 1,
           status: 1,
-          resume: 1
+          resume: 1,
+          skills:1,
+          coverLetter: 1
         }
       }
     ]);
+    console.log(applications);
+// console.log( applications[0].skills);
 
     const jobData = await JOB_POST.aggregate([
       { $match: { _id: new mongoose.Types.ObjectId(jobId) } },
       { $project: { Title: 1, JobDescription: 1, Salary: 1, Location: 1 } }
     ]);
-    // console.log("JOB_DATA : ", jobData);
     if (!applications.length) {
       return { success: false, message: "No applications found for this job" };
     }
