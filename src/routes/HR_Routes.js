@@ -4,9 +4,13 @@ import { verifyTokens } from "../middlewares/verifyTokens.js";
 import { getApp } from "../controllers/User_Controller/applicationController.js";
 import hrDashboard from "../service/hrServices/hrDash.js";
 import { DeleteJobPost } from "../controllers/HR_Controllers/DeleteJobController.js";
+import { getHrProfile, updateHrProfile } from "../controllers/HR_Controllers/HrController.js";
+import { upload } from "../middlewares/multer/multerFile.js";
 
 const router = express.Router();
 
+router.get('/profile/', verifyTokens, getHrProfile);
+router.put('/upProfile/',verifyTokens, upload, updateHrProfile);
 router.post("/postjob",verifyTokens, createJobPost);
 router.get("/getjobs", getJobs);
 router.get("/getjobsById/:Id", getJobById);
