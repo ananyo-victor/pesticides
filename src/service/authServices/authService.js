@@ -154,55 +154,52 @@ export const signUpHRService = async (req) => {
 
 export const signInService = async (req) => {
     const { email, password, role } = req.body;
-    // console.log(req.body);
 
     try {
         // Check if user exists
         const user = await (role === "hr" ? HR : User).aggregate([
-            { $match: {email : email} },
+            { $match: { email: email } },
             { $limit: 1 },
-            { $project: { password: 1 } }
+            { $project: { password: 1, role: 1 } }
         ]).then(data => data[0]);
-        // console.log(user);
+
         if (!user) {
-            // return res.status(400).json({ message: "User not found" });
+            console.log("User not found for email:", email);
             return {
                 success: false,
                 message: "User not found",
             };
         }
-// console.log(user);
+
         // Validate password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            // return res.status(400).json({ message: "Invalid password" });
+            console.log("Invalid password for user:", email);
             return {
                 success: false,
                 message: "Invalid password",
             };
         }
+
         // Generate token
         const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_KEY, {
             expiresIn: "1h",
         });
 
         // Respond with success message and token
-        // res.status(200).json({ message: "Sign in successful", token, role });
         return {
             success: true,
             message: "Sign in successful",
             token,
-            role
+            role: user.role
         };
 
     } catch (error) {
-        // res.status(500).json({ message: "Error signing in user", error });
+        console.error("Error signing in user:", error);
         return {
             success: false,
             message: "Error signing in user",
-            error
+            error: error.message
         };
     }
 };
-
-// export { signUpUser, signUpHR, signIn };
