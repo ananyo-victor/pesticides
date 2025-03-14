@@ -1,6 +1,7 @@
-// import multer from "multer";
 import bcrypt from "bcryptjs";
 import User from "../../models/user.js";
+import { uploadToCloudinary } from "../../middlewares/multer/multerFile.js";
+import fs from "fs";
 
 const getUserProfile = async (req, res) => {
   try {
@@ -18,12 +19,45 @@ const getUserProfile = async (req, res) => {
 const updateUserProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
-    let updatedData = req.body;
+    const { name, email, phoneNumber, experience, skills } = req.body;
+    // console.log("req.body", req.body);
 
-    // If password is being updated, hash it
-    if (updatedData.password) {
-      const salt = await bcrypt.genSalt(10);
-      updatedData.password = await bcrypt.hash(updatedData.password, salt); // Hash the new password
+    // Upload files to Cloudinary
+    let resumeUrl = null;
+    let profilePicUrl = null;
+
+    if (req.files.resume) {
+      const resumePath = req.files.resume[0].path;
+      const resumeResult = await uploadToCloudinary(resumePath, 'resumes');
+      resumeUrl = resumeResult.secure_url;
+      fs.unlinkSync(resumePath); // Remove the file from the local storage
+    }
+
+    if (req.files.profilePic) {
+      const profilePicPath = req.files.profilePic[0].path;
+      const profilePicResult = await uploadToCloudinary(profilePicPath, 'profile_pics');
+      profilePicUrl = profilePicResult.secure_url;
+      fs.unlinkSync(profilePicPath); // Remove the file from the local storage
+    }
+
+    // console.log("resumeUrl", resumeUrl);
+    // console.log("profilePicUrl", profilePicUrl);
+
+    // Prepare the updated data
+    const updatedData = {
+      name,
+      email,
+      phoneNumber,
+      experience,
+      skills,
+    };
+
+    if (resumeUrl) {
+      updatedData.resumePath = resumeUrl;
+    }
+
+    if (profilePicUrl) {
+      updatedData.profilePic = profilePicUrl;
     }
 
     // Update user in the database
