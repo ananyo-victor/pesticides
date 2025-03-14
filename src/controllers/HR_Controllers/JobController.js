@@ -77,7 +77,8 @@ export const getJobs = async (req, res) => {
 export const getJobById = async (req, res) => {
   try {
     const id = req.params.Id;
-    const job = await getJobByIdService(id);
+    const userId = req.user.userId;
+    const job = await getJobByIdService(id, userId);
     if (!job) {
       return res.status(404).json({ message: "Job not found", key: "error" });
     }

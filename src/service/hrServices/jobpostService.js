@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import JOB_POST from "../../models/job-post.js";
+import user from "../../models/user.js";
 
 /**
  * Create a new job post
@@ -30,12 +31,16 @@ export const getJobsService = async (page, limit) => {
 /**
  * Get job post by ID with HR details
  */
-export const getJobByIdService = async (id) => {
+export const getJobByIdService = async (id, userId) => {
     try {
+        // console.log(userId);
         const job = await JOB_POST.aggregate([
-            { $match: { _id: new mongoose.Types.ObjectId(id),
-                isActive: true,
-            } },
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(id),
+                    isActive: true,
+                }
+            },
             {
                 $lookup: {
                     from: "hrs",
@@ -55,7 +60,7 @@ export const getJobByIdService = async (id) => {
                     Experience: 1,
                     JobDescription: 1,
                     LastDate: 1,
-                    createdAt:1,
+                    createdAt: 1,
                     Vacancy: 1,
                     HRId: 1,
                     "hrDetails.name": 1,
@@ -65,7 +70,21 @@ export const getJobByIdService = async (id) => {
                 },
             },
         ]);
-        return job;
+        const resume = await user.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(userId),
+                },
+            },
+            {
+                $project: {
+                    resumePath: 1,
+                },
+            }
+        ]);
+        job[0].resume = resume[0].resumePath;
+        // console.log(job[0]);
+        return job[0];
     } catch (error) {
         throw new Error(error.message);
     }
