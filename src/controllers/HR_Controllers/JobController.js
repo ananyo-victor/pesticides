@@ -63,8 +63,8 @@ export const getJobs = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-
-    const jobs = await getJobsService(page, limit);
+    const userId = req.user.userId;
+    const jobs = await getJobsService(page, limit, userId);
     res.status(200).json(jobs);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
