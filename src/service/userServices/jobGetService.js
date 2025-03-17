@@ -2,26 +2,10 @@ import mongoose from "mongoose";
 import JOB_POST from "../../models/job-post.js";
 import User from "../../models/user.js";
 
-/**
- * Create a new job post
- */
-export const createJobPostService = async (jobData, hrId) => {
-    try {
-        const newJob = new JOB_POST({ ...jobData, HRId: hrId });
-        await newJob.save();
-        return { success: true, job: newJob };
-    } catch (error) {
-        throw new Error(error.message);
-    }
-};
-
-/**
- * Get all job posts with pagination
- */
-export const getJobsService = async (page, limit, userId) => {
+export const getJobsService = async (page, limit) => {
     try {
         const skip = (page - 1) * limit;
-        const jobs = await JOB_POST.find({HRId : new mongoose.Types.ObjectId(userId), isActive: true }).skip(skip).limit(limit);
+        const jobs = await JOB_POST.find({isActive: true }).skip(skip).limit(limit);
         return jobs;
     } catch (error) {
         throw new Error(error.message);
