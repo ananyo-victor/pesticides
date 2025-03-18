@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/profile/', verifyTokens, getHrProfile);
 router.put('/upProfile/',verifyTokens, upload, updateHrProfile);
 router.post("/postjob",verifyTokens, createJobPost);
-router.get("/getjobs", getJobs);
+router.get("/getjobs",verifyTokens, getJobs);
 router.get("/getjobsById/:Id", verifyTokens, getJobById);
 router.get("/applications/:jobId", getApp); // Fetch applications for a specific job
 router.get('/hr-dashboard',verifyTokens, hrDashboard );
