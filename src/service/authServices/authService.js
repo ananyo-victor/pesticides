@@ -154,7 +154,7 @@ export const signUpHRService = async (req) => {
 
 export const signInService = async (req) => {
     const { email, password, role } = req.body;
-
+// console.log(req.body)
     try {
         // Check if user exists
         const user = await (role === "hr" ? HR : User).aggregate([

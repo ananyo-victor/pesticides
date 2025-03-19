@@ -26,11 +26,7 @@ const hrSchema = new mongoose.Schema({
         type : String,
         required: true
     },
-    // cinNumber: {
-    //     type: Number,
-    //     required: true,
-    // },
 }, { timestamps: true });
 
-const HR = mongoose.model('HR', hrSchema);
+const HR = mongoose.models.HR || mongoose.model('HR', hrSchema);
 export default HR;

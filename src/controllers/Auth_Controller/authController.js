@@ -1,6 +1,7 @@
 import { signUpUserService, signUpHRService, signInService } from '../../service/authServices/authService.js';
 
 export const signUpUser = async (req, res) => {
+  console.log(req.body);
   const response = await signUpUserService(req);
   if (response.success) {
     return res.status(201).json(response);
