@@ -27,12 +27,25 @@ export const getSavedCardsService = async (customerId) => {
             customer: customerId,
             type: 'card',
         });
-        return paymentMethods.data;
+
+        // Filter out duplicate cards based on fingerprint
+        const uniqueCards = [];
+        const seenFingerprints = new Set();
+
+        for (const card of paymentMethods.data) {
+            if (!seenFingerprints.has(card.card.fingerprint)) {
+                seenFingerprints.add(card.card.fingerprint);
+                uniqueCards.push(card);
+            }
+        }
+
+        return uniqueCards;
     } catch (error) {
         console.error('Error fetching saved cards:', error);
         throw new Error('Error fetching saved cards');
     }
 };
+
 
 export const attachPaymentMethodService = async (paymentMethodId, customerId) => {
     try {
@@ -50,7 +63,7 @@ export const createSubscriptionService = async (customerId, paymentMethodId, pla
     try {
         // Attach the payment method to the customer
         await stripe.paymentMethods.attach(paymentMethodId, { customer: customerId });
-        
+
         // Set the default payment method on the customer
         await stripe.customers.update(customerId, {
             invoice_settings: {
