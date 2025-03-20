@@ -1,4 +1,4 @@
-import { getJobsService, getJobByIdService } from "../../service/userServices/jobGetService.js";
+import { getJobsService, getJobByIdService, getAppliedJobByIdService } from "../../service/userServices/jobGetService.js";
 
 export const getJobs = async (req, res) => {
   try {
@@ -20,6 +20,22 @@ export const getJobById = async (req, res) => {
     const id = req.params.Id;
     const userId = req.user.userId;
     const job = await getJobByIdService(id, userId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found", key: "error" });
+    }
+
+    res.status(200).json(job);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+
+export const getAppliedJobById = async (req, res) => {
+  try {
+    const id = req.params.Id;
+    // const userId = req.user.userId;
+    const job = await getAppliedJobByIdService(id);
     if (!job) {
       return res.status(404).json({ message: "Job not found", key: "error" });
     }
